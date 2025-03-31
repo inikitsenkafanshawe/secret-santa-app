@@ -1,31 +1,27 @@
-// src/navigation/RootNavigator.js
-
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
+import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthNavigator from "./AuthNavigator";
 import AppNavigator from "./AppNavigator";
-import { checkAuthState } from "../services/authService";
+import { UserContext } from "../context/UserContext";
 
 const RootNavigator = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const { currentUser, isLoading } = useContext(UserContext);
 
   useEffect(() => {
-    // Set up the listener
-    const unsubscribe = checkAuthState(setIsAuthenticated);  
+    if (!isLoading) {
+      // Hide the splash screen once the auth state is determined
+      SplashScreen.hideAsync();
+    }
+  }, [isLoading]);
 
-    // Clean up the listener when the component is unmounted
-    return () => unsubscribe();
-  }, []);
-
-  if (isAuthenticated === null) {
-    // Loading state while checking authentication status
+  if (isLoading) {
     return null;
-    //<ActivityIndicator size="large" color="#0000ff" />
   }
 
   return (
     <NavigationContainer>
-      {isAuthenticated ? <AppNavigator /> : <AuthNavigator />}
+      {currentUser ? <AppNavigator /> : <AuthNavigator />}
     </NavigationContainer>
   );
 };

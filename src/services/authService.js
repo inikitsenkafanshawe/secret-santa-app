@@ -46,10 +46,13 @@ export const logoutUser = async () => {
 };
 
 // Function to check auth state
-export const checkAuthState = (setIsAuthenticated) => {
+export const checkAuthState = (setCurrentUser, setIsLoading) => {
   const unsubscribe = onAuthStateChanged(auth, (user) => {
-    // Update the state based on whether the user is logged in
-    setIsAuthenticated(!!user);
+    // Update current user
+    setCurrentUser(user);
+
+    // Set loading to false once the auth state is determined
+    setIsLoading(false);
   });
 
   // Return the unsubscribe function to stop listening when it's no longer needed

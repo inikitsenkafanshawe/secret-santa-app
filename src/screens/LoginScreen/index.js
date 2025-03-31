@@ -4,9 +4,9 @@ import {
   TextInput,
   Text,
   TouchableOpacity,
-  View,
   ActivityIndicator,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { loginUser } from "../../services/authService";
 import Message from "../../components/Message";
 import styles from "./styles";
@@ -55,7 +55,7 @@ const LoginScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Login</Text>
 
@@ -111,7 +111,7 @@ const LoginScreen = ({ navigation }) => {
           title="Error"
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   ScrollView,
   TextInput,
   Text,
   TouchableOpacity,
-  View,
   ActivityIndicator,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { registerUser } from "../../services/authService";
-import { saveUserToDatabase } from "../../services/dbService";
 import Message from "../../components/Message";
 import styles from "./styles";
+import { UsersContext } from "../../context/UsersContext";
 
 const RegisterScreen = ({ navigation }) => {
+  const { saveUser } = useContext(UsersContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -51,7 +53,7 @@ const RegisterScreen = ({ navigation }) => {
       const user = await registerUser(email, password, name);
 
       // Save additional user data to the database using dbService
-      await saveUserToDatabase(user.uid, name, email);
+      await saveUser(user.uid, name, email);
     } catch (error) {
       // Show error message if registration fails
       setError(error.message);
@@ -63,7 +65,7 @@ const RegisterScreen = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>Register</Text>
 
@@ -128,7 +130,7 @@ const RegisterScreen = ({ navigation }) => {
           title="Error"
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
