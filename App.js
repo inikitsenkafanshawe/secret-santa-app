@@ -6,6 +6,7 @@ import RootNavigator from "./src/navigation/RootNavigator";
 import { UserProvider } from "./src/context/UserContext";
 import { UsersProvider } from "./src/context/UsersContext";
 import { EventsProvider } from "./src/context/EventsContext";
+import { ChatsProvider } from "./src/context/ChatsContext";
 
 const App = () => {
   useEffect(() => {
@@ -26,8 +27,10 @@ const App = () => {
         <UsersProvider>
           {/* Provide events context last, depends on users */}
           <EventsProvider>
-            <StatusBar style="auto" />
-            <RootNavigator />
+            <ChatsProvider>
+              <StatusBar style="auto" />
+              <RootNavigator />
+            </ChatsProvider>
           </EventsProvider>
         </UsersProvider>
       </UserProvider>
