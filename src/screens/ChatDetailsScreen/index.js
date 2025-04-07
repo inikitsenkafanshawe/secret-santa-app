@@ -80,25 +80,17 @@ const ChatDetailsScreen = ({ route }) => {
 
   // Scroll to the bottom if needed
   useEffect(() => {
-    if (isAtBottom) {
+    if (!isAtBottom) {
       flatListRef.current?.scrollToEnd({ animated: true });
     }
-  }, [chatMessages, isAtBottom]);
+  }, [messages, isAtBottom]);
 
-  // Mark messages as read when screen mounts
+  // Mark messages as read when a new message is received
   useEffect(() => {
     if (chatId && currentUser?.uid) {
       markMessagesAsRead(chatId);
     }
-  }, [chatId, currentUser]);
-
-    // Mark messages as read when a new message is received
-    useEffect(() => {
-      if (chatId && currentUser?.uid) {
-        console.log("Marking messages as read for chatId:", chatId); // Debugging log
-        markMessagesAsRead(chatId);
-      }
-    }, [chatId, currentUser]);
+  }, [messages]);
 
   // Check if user is at the bottom of the list
   const onScroll = (event) => {
