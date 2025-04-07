@@ -92,6 +92,14 @@ const ChatDetailsScreen = ({ route }) => {
     }
   }, [chatId, currentUser]);
 
+    // Mark messages as read when a new message is received
+    useEffect(() => {
+      if (chatId && currentUser?.uid) {
+        console.log("Marking messages as read for chatId:", chatId); // Debugging log
+        markMessagesAsRead(chatId);
+      }
+    }, [chatId, currentUser]);
+
   // Check if user is at the bottom of the list
   const onScroll = (event) => {
     const contentOffsetY = event.nativeEvent.contentOffset.y;
