@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -11,19 +11,31 @@ import styles from "./styles";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import { EventsContext } from "../../context/EventsContext";
 import { UsersContext } from "../../context/UsersContext";
+import { WishlistsContext } from "../../context/WishlistsContext";
 import { UserContext } from "../../context/UserContext";
 import Message from "../../components/Message";
 import ConfirmationModal from "../../components/ConfirmationModal";
-import { ChatsContext } from "../../context/ChatsContext";
 
 const EventDetailsScreen = ({ navigation, route }) => {
   const { eventId } = route.params; // Get event ID from navigation params
   const { getEventById, deleteEvent } = useContext(EventsContext);
   const { getUserById } = useContext(UsersContext);
+  const { getWishlistByEventAndUser, getWishlistByEventAndSanta } =
+    useContext(WishlistsContext);
   const { currentUser } = useContext(UserContext);
-  const { startChatForEvent, refreshUnreadCounts } = useContext(ChatsContext);
   const event = getEventById(eventId);
   const creator = event ? getUserById(event.createdBy) : null;
+  const isParticipant = Object.keys(event.participants).includes(
+    currentUser.uid
+  );
+  const myWishlist = getWishlistByEventAndUser(eventId, currentUser.uid);
+  const participantsWishlist = getWishlistByEventAndSanta(
+    eventId,
+    currentUser.uid
+  );
+  const secretSantaId = Object.entries(event.participants).find(
+    ([id, data]) => data.assignedTo === currentUser.uid
+  )?.[0];
   const [error, setError] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // Message visibility state
   const [isVisible, setIsVisible] = useState(false); // ConfirmationModal visibility state
@@ -40,9 +52,6 @@ const EventDetailsScreen = ({ navigation, route }) => {
       </View>
     );
   }
-
-  // Check if current user is a participant in the current event
-  const isParticipant = Object.keys(event.participants).includes(currentUser.uid);
 
   const renderParticipant = ({ item }) => {
     const user = getUserById(item);
@@ -83,8 +92,6 @@ const EventDetailsScreen = ({ navigation, route }) => {
     try {
       // Delete event using deleteEvent
       await deleteEvent(eventId);
-      // Force update the unread counts after deletion
-      refreshUnreadCounts();
       // Navigate back after event deletion
       navigation.goBack();
     } catch (error) {
@@ -100,50 +107,6 @@ const EventDetailsScreen = ({ navigation, route }) => {
   const cancelDelete = () => {
     // Close the modal without deleting
     setIsModalVisible(false);
-  };
-
-  // Function to create a new chat if it doesn't already exist and to navigate to chat
-  const handleStartChat = async (type) => {
-    const myId = currentUser.uid;
-
-    // Find the recipientId based on the type (secret_santa or recipient)
-    const recipientId =
-      type === "secret_santa"
-        ? Object.entries(event.participants).find(
-            ([, v]) => v.assignedTo === myId
-          )?.[0]
-        : event.participants[myId]?.assignedTo;
-
-    // Exit early if no recipient is found    
-    if (!recipientId) return;
-
-    try {
-      // Create or find the chat with roles for both users
-      const newChatId = await startChatForEvent(
-        eventId,
-        myId,
-        recipientId,
-        type
-      );
-
-      // Fetch name to display
-      const otherUser = getUserById(recipientId);
-      const chatName =
-        type === "secret_santa" ? "Secret Santa" : otherUser?.name;
-
-      // Pass eventName and chatName as params when navigating to the ChatDetails screen
-      navigation.navigate("ChatsStack", {
-        screen: "ChatDetails",
-        params: {
-          chatId: newChatId,
-          chatName,
-          eventName: event.name,
-        },
-        initial: false,
-      });
-    } catch (error) {
-      console.error("Error in starting chat:", error);
-    }
   };
 
   return (
@@ -163,20 +126,49 @@ const EventDetailsScreen = ({ navigation, route }) => {
 
       {isParticipant && (
         <>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => handleStartChat("secret_santa")}
-        >
-          <Text style={styles.buttonText}>Chat with Secret Santa</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => handleStartChat("recipient")}
-        >
-          <Text style={styles.buttonText}>Chat with Gift Recipient</Text>
-        </TouchableOpacity>
-      </>
+          {!myWishlist && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate("WishlistsStack", {
+                  screen: "NewWishlist",
+                  params: { eventId, secretSantaId },
+                  initial: false,
+                });
+              }}
+            >
+              <Text style={styles.buttonText}>Create My Wishlist</Text>
+            </TouchableOpacity>
+          )}
+          {myWishlist && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate("WishlistsStack", {
+                  screen: "WishlistDetails",
+                  params: { wishlistId: myWishlist.id },
+                  initial: false,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Open My Wishlist</Text>
+            </TouchableOpacity>
+          )}
+          {participantsWishlist && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate("WishlistsStack", {
+                  screen: "WishlistDetails",
+                  params: { wishlistId: participantsWishlist.id },
+                  initial: false,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Open Recipient's Wishlist </Text>
+            </TouchableOpacity>
+          )}
+        </>
       )}
 
       {currentUser.uid === event.createdBy && (

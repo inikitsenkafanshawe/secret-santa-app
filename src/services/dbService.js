@@ -7,6 +7,7 @@ import {
   get,
   set,
   push,
+  update,
   remove,
   serverTimestamp,
   equalTo,
@@ -306,3 +307,85 @@ export const markMessagesAsRead = async (chatId, userId) => {
   }
 };
 
+// Fetch wishlists created by or involving the current user from the Realtime Database
+export const fetchWishlistsFromDatabase = (currentUserId, setWishlists) => {
+  const wishlistsRef = ref(db, "wishlists/");
+
+  // Set up the real-time listener using onValue
+  const unsubscribe = onValue(
+    wishlistsRef,
+    (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const wishlistsList = Object.entries(data)
+          .filter(
+            ([_, wishlist]) =>
+              wishlist.userId === currentUserId ||
+              wishlist.secretSantaId === currentUserId
+          )
+          .map(([id, wishlist]) => ({
+            id,
+            ...wishlist,
+          }));
+
+        setWishlists(wishlistsList); // Update the state with the filtered wishlists
+      } else {
+        setWishlists([]); // No events found, clear the wishlists state
+      }
+    },
+    (error) => {
+      console.error("Error fetching wishlists:", error);
+      setWishlists([]);
+    }
+  );
+
+  // Return the unsubscribe function to stop listening
+  return unsubscribe;
+};
+
+// Function to save wishlist data to the Realtime Database
+export const saveWishlistToDatabase = async (
+  eventId,
+  userId,
+  items,
+  secretSantaId
+) => {
+  try {
+    const wishlistRef = ref(db, "wishlists");
+
+    // Push wishlist directly (Firebase generates ID automatically)
+    await push(wishlistRef, {
+      eventId,
+      userId,
+      secretSantaId,
+      items,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Function to update wishlist items in the Realtime Database
+export const updateWishlistInDatabase = async (wishlistId, items) => {
+  try {
+    const wishlistRef = ref(db, `wishlists/${wishlistId}`);
+
+    // Update wishlist
+    await update(wishlistRef, {
+      items,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Function to delete wishlist data from the Realtime Database
+export const deleteWishlistFromDatabase = async (wishlistId) => {
+  try {
+    const wishlistRef = ref(db, `wishlists/${wishlistId}`);
+    // Delete wishlist from database
+    await remove(wishlistRef);
+  } catch (error) {
+    throw error;
+  }
+};

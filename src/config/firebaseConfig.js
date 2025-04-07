@@ -9,7 +9,13 @@ import { getDatabase } from "firebase/database";
 
 // Add your Firebase configuration details here (apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, etc.)
 const firebaseConfig = {
-
+  apiKey: "AIzaSyBTsCf3aHfEqyGHfsMJh_gAV-ECRiRv2qI",
+  authDomain: "info-6132-88642.firebaseapp.com",
+  databaseURL: "https://info-6132-88642-default-rtdb.firebaseio.com",
+  projectId: "info-6132-88642",
+  storageBucket: "info-6132-88642.firebasestorage.app",
+  messagingSenderId: "1066729218122",
+  appId: "1:1066729218122:web:9556fcd6eea53a27bb06b3"
 };
 
 let app, auth;

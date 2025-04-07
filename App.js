@@ -7,6 +7,7 @@ import { UserProvider } from "./src/context/UserContext";
 import { UsersProvider } from "./src/context/UsersContext";
 import { EventsProvider } from "./src/context/EventsContext";
 import { ChatsProvider } from "./src/context/ChatsContext";
+import { WishlistsProvider } from "./src/context/WishlistsContext";
 
 const App = () => {
   useEffect(() => {
@@ -28,8 +29,10 @@ const App = () => {
           {/* Provide events context last, depends on users */}
           <EventsProvider>
             <ChatsProvider>
-              <StatusBar style="auto" />
-              <RootNavigator />
+              <WishlistsProvider>
+                <StatusBar style="auto" />
+                <RootNavigator />
+              </WishlistsProvider>
             </ChatsProvider>
           </EventsProvider>
         </UsersProvider>

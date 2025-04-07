@@ -7,6 +7,7 @@ import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import EventNavigator from "./EventNavigator";
 import ChatNavigator from "./ChatNavigator";
+import WishlistNavigator from "./WishlistNavigator";
 import { ChatsContext } from "../context/ChatsContext";
 
 const Drawer = createDrawerNavigator();
@@ -98,7 +99,7 @@ const AppNavigator = () => {
       <Drawer.Screen
         name="WishlistsStack"
         // Implement WishlistNavigator
-        component={EventNavigator}
+        component={WishlistNavigator}
         options={{
           title: "Wishlists",
           drawerIcon: ({ color }) => (
