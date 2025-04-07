@@ -11,8 +11,10 @@ import {
 import { UserContext } from "../../context/UserContext";
 import { ChatsContext } from "../../context/ChatsContext";
 import styles from "./styles";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ChatDetailsScreen = ({ route }) => {
+  const insets = useSafeAreaInsets();
   // Get the chat ID, event name, and chat display name from nav params
   const { chatId, eventName, chatName } = route.params;
 
@@ -133,7 +135,7 @@ const ChatDetailsScreen = ({ route }) => {
         onScroll={onScroll} // Track scroll position
       />
 
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, { marginBottom: insets.bottom }]}>
         <TextInput
           style={styles.input}
           value={input}
