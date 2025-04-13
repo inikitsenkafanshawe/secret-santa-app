@@ -10,6 +10,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+  image: {
+    width: "100%",
+    height: 250,
+    marginBottom: 20,
+  },
   title: {
     fontSize: 24,
     fontWeight: "bold",

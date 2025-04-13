@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { loginUser } from "../../services/authService";
@@ -57,7 +58,13 @@ const LoginScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Login</Text>
+        <Image
+          source={require("../../../assets/santa-claus.png")}
+          style={styles.image}
+          resizeMode="contain"
+        />
+
+        <Text style={styles.title}>Secret Santa App</Text>
 
         <TextInput
           style={styles.input}
