@@ -177,7 +177,9 @@ const WishlistDetailsScreen = ({ navigation, route }) => {
             {isLoading ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text style={styles.buttonText}>Update</Text>
+              <Text style={styles.buttonText}>
+                <FontAwesome5 name="save" size={16} /> Update Wishlist
+              </Text>
             )}
           </TouchableOpacity>
           <TouchableOpacity
@@ -188,7 +190,9 @@ const WishlistDetailsScreen = ({ navigation, route }) => {
             {isLoading ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text style={styles.buttonText}>Delete Wishlist</Text>
+              <Text style={styles.buttonText}>
+                <FontAwesome5 name="trash-alt" size={16} /> Delete Wishlist
+              </Text>
             )}
           </TouchableOpacity>
         </>

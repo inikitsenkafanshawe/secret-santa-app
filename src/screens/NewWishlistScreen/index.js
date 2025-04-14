@@ -115,7 +115,9 @@ const NewWishlistScreen = ({ navigation, route }) => {
         {isLoading ? (
           <ActivityIndicator color="white" />
         ) : (
-          <Text style={styles.buttonText}>Create</Text>
+          <Text style={styles.buttonText}>
+            <FontAwesome5 name="save" size={16} /> Create Wishlist
+          </Text>
         )}
       </TouchableOpacity>
 

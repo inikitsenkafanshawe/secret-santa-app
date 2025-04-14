@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import styles from "./styles";
 import { EventsContext } from "../../context/EventsContext";
@@ -137,7 +138,9 @@ const NewEventScreen = ({ navigation }) => {
         {isLoading ? (
           <ActivityIndicator color="white" />
         ) : (
-          <Text style={styles.buttonText}>Create</Text>
+          <Text style={styles.buttonText}>
+            <FontAwesome5 name="save" size={16} /> Create Event
+          </Text>
         )}
       </TouchableOpacity>
 
