@@ -23,6 +23,7 @@ const chatDetailsStyles = StyleSheet.create({
   },
   messageText: {
     color: "#FFFFFF",
+    fontWeight: "500",
     fontSize: 16,
   },
   inputContainer: {
@@ -69,7 +70,7 @@ const chatDetailsStyles = StyleSheet.create({
   },
   timestampText: {
     fontSize: 12,
-    color: "#A0A0A0",
+    color: "#E0E0E0",
     marginTop: 5,
     textAlign: "right",
   },

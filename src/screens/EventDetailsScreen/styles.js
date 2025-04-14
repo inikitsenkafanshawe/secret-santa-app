@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   userEmail: {
-    color: "#B0B0B0",
+    color: "#E0E0E0",
     fontSize: 14,
   },
   assignedContainer: {

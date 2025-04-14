@@ -51,7 +51,7 @@ const ChatsScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.textRow}>
-          <Text style={styles.chatText}>From: </Text>
+          <Text style={styles.chatText}>With: </Text>
           <Text style={styles.chatTextBold}>{chatName}</Text>
         </View>
 

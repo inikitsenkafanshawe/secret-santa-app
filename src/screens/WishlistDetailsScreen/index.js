@@ -139,7 +139,7 @@ const WishlistDetailsScreen = ({ navigation, route }) => {
     <View style={styles.container}>
       <Text style={styles.eventName}>{event?.name || "Deleted"}</Text>
       <Text style={styles.createdBy}>
-        Created by: {creator?.name || "Unknown User"}
+        Created by: {creator?.name} ({creator?.email})
       </Text>
 
       <FlatList

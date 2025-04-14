@@ -33,7 +33,7 @@ const WishlistsScreen = ({ navigation }) => {
         <View style={styles.wishlistInfo}>
           <Text style={styles.eventText}>{event?.name || "Unnamed Event"}</Text>
           <Text style={styles.userText}>
-            Created by: {user?.name || item.userId}
+            Created by: {user?.name} ({user?.email})
           </Text>
         </View>
       </TouchableOpacity>

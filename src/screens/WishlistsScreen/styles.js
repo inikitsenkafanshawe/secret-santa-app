@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   userText: {
-    color: "#B0B0B0",
+    color: "#E0E0E0",
     fontSize: 14,
     marginTop: 5,
   },
