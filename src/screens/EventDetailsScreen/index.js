@@ -9,6 +9,7 @@ import {
 import { useFocusEffect } from "@react-navigation/native";
 import styles from "./styles";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+import FontAwesome6 from "react-native-vector-icons/FontAwesome6";
 import { EventsContext } from "../../context/EventsContext";
 import { UsersContext } from "../../context/UsersContext";
 import { WishlistsContext } from "../../context/WishlistsContext";
@@ -177,19 +178,24 @@ const EventDetailsScreen = ({ navigation, route }) => {
 
       {isParticipant && (
         <>
-        <TouchableOpacity
-           style={styles.button}
-           onPress={() => handleStartChat("secret_santa")}
-         >
-           <Text style={styles.buttonText}>Chat with Secret Santa</Text>
-         </TouchableOpacity>
- 
-         <TouchableOpacity
-           style={styles.button}
-           onPress={() => handleStartChat("recipient")}
-         >
-           <Text style={styles.buttonText}>Chat with Gift Recipient</Text>
-         </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleStartChat("secret_santa")}
+          >
+            <Text style={styles.buttonText}>
+              <FontAwesome6 name="message" size={16} /> With Santa
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleStartChat("recipient")}
+          >
+            <Text style={styles.buttonText}>
+              <FontAwesome6 name="message" size={16} color="white" /> With
+              Giftee
+            </Text>
+          </TouchableOpacity>
 
           {!myWishlist && (
             <TouchableOpacity
@@ -202,7 +208,9 @@ const EventDetailsScreen = ({ navigation, route }) => {
                 });
               }}
             >
-              <Text style={styles.buttonText}>Create My Wishlist</Text>
+              <Text style={styles.buttonText}>
+                <FontAwesome5 name="plus" size={16} /> New Wishlist
+              </Text>
             </TouchableOpacity>
           )}
           {myWishlist && (
@@ -216,7 +224,9 @@ const EventDetailsScreen = ({ navigation, route }) => {
                 })
               }
             >
-              <Text style={styles.buttonText}>Open My Wishlist</Text>
+              <Text style={styles.buttonText}>
+                <FontAwesome5 name="list-alt" size={16} /> My Wishlist
+              </Text>
             </TouchableOpacity>
           )}
           {participantsWishlist && (
@@ -230,7 +240,9 @@ const EventDetailsScreen = ({ navigation, route }) => {
                 })
               }
             >
-              <Text style={styles.buttonText}>Open Recipient's Wishlist </Text>
+              <Text style={styles.buttonText}>
+                <FontAwesome5 name="list-alt" size={16} /> Giftee's Wishlist
+              </Text>
             </TouchableOpacity>
           )}
         </>
@@ -245,7 +257,9 @@ const EventDetailsScreen = ({ navigation, route }) => {
           {isLoading ? (
             <ActivityIndicator color="white" />
           ) : (
-            <Text style={styles.buttonText}>Delete Event</Text>
+            <Text style={styles.buttonText}>
+              <FontAwesome5 name="trash-alt" size={16} /> Delete Event
+            </Text>
           )}
         </TouchableOpacity>
       )}
