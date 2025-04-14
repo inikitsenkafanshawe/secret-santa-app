@@ -43,15 +43,25 @@ const styles = StyleSheet.create({
     color: "#B0B0B0",
   },
   eventItem: {
+    flexDirection: "row",
+    alignItems: "center",
     padding: 15,
     backgroundColor: "#388E3C",
     marginBottom: 10,
     borderRadius: 8,
   },
+  eventInfo: {
+    flex: 1,
+  },
   eventText: {
     color: "#FFFFFF",
     fontWeight: "bold",
     fontSize: 18,
+  },
+  dateText: {
+    color: "#E0E0E0",
+    fontSize: 14,
+    marginTop: 5,
   },
   fab: {
     backgroundColor: "#D32F2F",

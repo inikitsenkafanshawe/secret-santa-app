@@ -19,10 +19,12 @@ const NewEventScreen = ({ navigation }) => {
   const { saveEvent } = useContext(EventsContext);
   const { users } = useContext(UsersContext);
   const [name, setName] = useState("");
+  const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [error, setError] = useState("");
   const [nameError, setNameError] = useState("");
+  const [dateError, setDateError] = useState("");
   const [isVisible, setIsVisible] = useState(false); // Message visibility state
   const [isLoading, setIsLoading] = useState(false); // Loading state
 
@@ -40,9 +42,20 @@ const NewEventScreen = ({ navigation }) => {
     );
   };
 
+  const isValidDateFormat = (date) => {
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(date)) return false;
+
+    const parsedDate = new Date(date);
+    return (
+      !isNaN(parsedDate) && parsedDate.toISOString().split("T")[0] === date
+    );
+  };
+
   const handleCreateEvent = async () => {
     // Reset errors before checking
     setNameError("");
+    setDateError("");
     setError("");
     // Hide the error overlay
     setIsVisible(false);
@@ -51,9 +64,15 @@ const NewEventScreen = ({ navigation }) => {
 
     // Validate that all fields are filled
     if (!name) setNameError("Event name is required!");
+    if (!date) {
+      setDateError("Date is required!");
+    } else {
+      if (!isValidDateFormat(date))
+        setDateError("Date must be in YYYY-MM-DD format!");
+    }
 
     // Don't proceed if validation fails
-    if (!name) {
+    if (!name || !date || !isValidDateFormat(date)) {
       // Hide the loading state
       setIsLoading(false);
       return;
@@ -71,7 +90,7 @@ const NewEventScreen = ({ navigation }) => {
 
     try {
       // Save event using saveEvent
-      await saveEvent(name, description, selectedUsers);
+      await saveEvent(name, date, description, selectedUsers);
       // Navigate back after event creation
       navigation.goBack();
     } catch (error) {
@@ -94,6 +113,15 @@ const NewEventScreen = ({ navigation }) => {
         onChangeText={setName}
       />
       {nameError ? <Text style={styles.error}>{nameError}</Text> : null}
+
+      <TextInput
+        style={styles.input}
+        placeholder="Exchange Date (YYYY-MM-DD)"
+        placeholderTextColor={styles.placeholder.color}
+        value={date}
+        onChangeText={setDate}
+      />
+      {dateError ? <Text style={styles.error}>{dateError}</Text> : null}
 
       <TextInput
         style={[styles.input, styles.textArea]}

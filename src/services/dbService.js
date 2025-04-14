@@ -91,6 +91,7 @@ export const fetchEventsFromDatabase = (currentUserId, setEvents) => {
 // Function to save event data to the Realtime Database
 export const saveEventToDatabase = async (
   name,
+  date,
   description,
   createdBy,
   selectedUsers
@@ -106,6 +107,7 @@ export const saveEventToDatabase = async (
     // Push event directly (Firebase generates ID automatically)
     await push(eventsRef, {
       name,
+      date,
       description,
       createdBy,
       createdAt: serverTimestamp(), // Firebase server timestamp

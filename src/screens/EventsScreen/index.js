@@ -46,7 +46,10 @@ const EventsScreen = ({ navigation }) => {
                 navigation.navigate("EventDetails", { eventId: item.id })
               }
             >
-              <Text style={styles.eventText}>{item.name}</Text>
+              <View style={styles.eventInfo}>
+                <Text style={styles.eventText}>{item.name}</Text>
+                <Text style={styles.dateText}>Exchange date: {item.date}</Text>
+              </View>
             </TouchableOpacity>
           )}
           ListEmptyComponent={

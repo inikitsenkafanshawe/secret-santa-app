@@ -164,6 +164,7 @@ const EventDetailsScreen = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.eventName}>{event.name}</Text>
+      <Text style={styles.eventDescription}>{event.date}</Text>
       <Text style={styles.eventDescription}>{event.description}</Text>
       <Text style={styles.createdBy}>
         Created by: {creator?.name} ({creator?.email})

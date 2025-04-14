@@ -39,10 +39,11 @@ export const EventsProvider = ({ children }) => {
   };
 
   // Function to save event data to the Realtime Database
-  const saveEvent = async (name, description, selectedUsers) => {
+  const saveEvent = async (name, date, description, selectedUsers) => {
     try {
       await saveEventToDatabase(
         name,
+        date,
         description,
         currentUser.uid,
         selectedUsers
