@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, FlatList, TouchableOpacity, View } from "react-native";
+import { Text, FlatList, TouchableOpacity, View, Image } from "react-native";
 import styles from "./styles";
 import { useFocusEffect } from "@react-navigation/native";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -42,14 +42,29 @@ const WishlistsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={wishlists}
-        keyExtractor={(item) => item.id}
-        renderItem={renderWishlist}
-        ListEmptyComponent={
-          <Text style={styles.error}>No wishlists available</Text>
-        }
-      />
+      {wishlists && wishlists.length > 0 ? (
+        <FlatList
+          data={wishlists}
+          keyExtractor={(item) => item.id}
+          renderItem={renderWishlist}
+          ListEmptyComponent={
+            <Text style={styles.error}>No wishlists available</Text>
+          }
+        />
+      ) : (
+        <View style={styles.empty}>
+          <Image
+            source={require("../../../assets/christmas-presents.png")}
+            style={styles.image}
+            resizeMode="contain"
+          />
+          <Text style={styles.title}>No wishlist? No hints!</Text>
+          <Text style={styles.subtitle}>
+            Create a wishlist inside an event and make gifting easy for your
+            Santa.
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

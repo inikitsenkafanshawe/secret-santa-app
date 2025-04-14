@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from "react-native";
 import styles from "./styles";
 import { useFocusEffect } from "@react-navigation/native";
@@ -25,30 +26,47 @@ const EventsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        ListHeaderComponent={
-          <TextInput
-            style={styles.searchBar}
-            placeholder="Search by name..."
-            placeholderTextColor={styles.placeholder.color}
-            value={search}
-            onChangeText={setSearch}
+      {events && events.length > 0 ? (
+        <FlatList
+          ListHeaderComponent={
+            <TextInput
+              style={styles.searchBar}
+              placeholder="Search by name..."
+              placeholderTextColor={styles.placeholder.color}
+              value={search}
+              onChangeText={setSearch}
+            />
+          }
+          data={filteredEvents}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.eventItem}
+              onPress={() =>
+                navigation.navigate("EventDetails", { eventId: item.id })
+              }
+            >
+              <Text style={styles.eventText}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+          ListEmptyComponent={
+            <Text style={styles.error}>Events not found</Text>
+          }
+        />
+      ) : (
+        <View style={styles.empty}>
+          <Image
+            source={require("../../../assets/mailbox.png")}
+            style={styles.image}
+            resizeMode="contain"
           />
-        }
-        data={filteredEvents}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.eventItem}
-            onPress={() =>
-              navigation.navigate("EventDetails", { eventId: item.id })
-            }
-          >
-            <Text style={styles.eventText}>{item.name}</Text>
-          </TouchableOpacity>
-        )}
-        ListEmptyComponent={<Text style={styles.error}>Events not found</Text>}
-      />
+          <Text style={styles.title}>Looks a little empty here...</Text>
+          <Text style={styles.subtitle}>
+            Tap the + button to create your first event and kick off the holiday
+            magic.
+          </Text>
+        </View>
+      )}
 
       <TouchableOpacity
         style={styles.fab}

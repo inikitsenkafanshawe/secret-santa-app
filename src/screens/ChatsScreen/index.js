@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, FlatList, Text, TouchableOpacity } from "react-native";
+import { View, FlatList, Text, TouchableOpacity, Image } from "react-native";
 import { ChatsContext } from "../../context/ChatsContext";
 import { UsersContext } from "../../context/UsersContext";
 import { UserContext } from "../../context/UserContext";
@@ -18,7 +18,7 @@ const ChatsScreen = ({ navigation }) => {
     const otherUserId =
       item.user1 === currentUser.uid ? item.user2 : item.user1;
     // Get the other user's data
-    const otherUser = getUserById(otherUserId); 
+    const otherUser = getUserById(otherUserId);
     // Get event name to display
     const eventName = getEventById(item.eventId)?.name || "Unknown Event";
 
@@ -66,12 +66,26 @@ const ChatsScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={chats}
-        keyExtractor={(item) => item.id}
-        renderItem={renderItem}
-        ListEmptyComponent={<Text style={styles.error}>No chats yet</Text>}
-      />
+      {chats && chats.length > 0 ? (
+        <FlatList
+          data={chats}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          ListEmptyComponent={<Text style={styles.error}>No chats yet</Text>}
+        />
+      ) : (
+        <View style={styles.empty}>
+          <Image
+            source={require("../../../assets/letter.png")}
+            style={styles.image}
+            resizeMode="contain"
+          />
+          <Text style={styles.title}>Let’s break the ice!</Text>
+          <Text style={styles.subtitle}>
+            Go to your event to meet your Santa or surprise your giftee.
+          </Text>
+        </View>
+      )}
     </View>
   );
 };

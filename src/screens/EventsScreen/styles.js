@@ -6,6 +6,30 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFE5B4",
     padding: 20,
   },
+  empty: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: "100%",
+    height: 250,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#D32F2F",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
   searchBar: {
     height: 50,
     borderColor: "#D32F2F",

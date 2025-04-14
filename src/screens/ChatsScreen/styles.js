@@ -6,6 +6,30 @@ const chatsStyles = StyleSheet.create({
     backgroundColor: "#FFE5B4",
     padding: 20,
   },
+  empty: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    width: "100%",
+    height: 250,
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#D32F2F",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
   chatItem: {
     padding: 15,
     backgroundColor: "#388E3C",
@@ -32,14 +56,14 @@ const chatsStyles = StyleSheet.create({
     textAlign: "center",
   },
   badge: {
-    marginTop:10,
+    marginTop: 10,
     backgroundColor: "red",
     borderRadius: 10,
     paddingHorizontal: 8,
     paddingVertical: 2,
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute", 
+    position: "absolute",
     right: 10,
   },
   badgeText: {
